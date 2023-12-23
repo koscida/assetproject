@@ -8,7 +8,8 @@ public class Asset {
 	@GeneratedValue
 	private Long id;
 
-	@OneToOne
+	@Column
+	@Enumerated
 	private Status status;
 
 	@ManyToOne

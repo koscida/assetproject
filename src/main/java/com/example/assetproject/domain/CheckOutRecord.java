@@ -9,6 +9,10 @@ public class CheckOutRecord {
 	@GeneratedValue
 	private Long id;
 
+	@Column
+	@Enumerated
+	private Status assetStatus;
+
 	@ManyToOne
 	private Asset asset;
 
@@ -21,33 +25,42 @@ public class CheckOutRecord {
 	@Column
 	private Date returnDate;
 
-	@Column
-	@Enumerated
-	private Status finalAssetStatus;
-
 
 
 	// constructors
-
-	public CheckOutRecord(Asset asset, Profile profile, Date checkOutDate, Date returnDate, Status finalAssetStatus) {
+	public CheckOutRecord(Status assetStatus) {
+		this.assetStatus = assetStatus;
+	}
+	public CheckOutRecord(Status assetStatus, Asset asset, Profile profile) {
+		this.assetStatus = assetStatus;
+		this.asset = asset;
+		this.profile = profile;
+	}
+	public CheckOutRecord(Status assetStatus, Asset asset, Profile profile, Date checkOutDate, Date returnDate) {
+		this.assetStatus = assetStatus;
 		this.asset = asset;
 		this.profile = profile;
 		this.checkOutDate = checkOutDate;
 		this.returnDate = returnDate;
-		this.finalAssetStatus = finalAssetStatus;
 	}
-	public CheckOutRecord(Asset asset, Profile profile) {
+
+	public CheckOutRecord(Long id, Status assetStatus, Asset asset, Profile profile, Date checkOutDate, Date returnDate) {
+		this.id = id;
+		this.assetStatus = assetStatus;
 		this.asset = asset;
 		this.profile = profile;
+		this.checkOutDate = checkOutDate;
+		this.returnDate = returnDate;
 	}
 	protected CheckOutRecord(){}
 
 	// getters and setters
-	public Long getId() {
-		return id;
+
+	public Status getAssetStatus() {
+		return assetStatus;
 	}
-	public void setId(Long id) {
-		this.id = id;
+	public void setAssetStatus(Status assetStatus) {
+		this.assetStatus = assetStatus;
 	}
 	public Asset getAsset() {
 		return asset;
@@ -73,12 +86,7 @@ public class CheckOutRecord {
 	public void setReturnDate(Date returnDate) {
 		this.returnDate = returnDate;
 	}
-	public Status getFinalAssetStatus() {
-		return finalAssetStatus;
-	}
-	public void setFinalAssetStatus(Status finalAssetStatus) {
-		this.finalAssetStatus = finalAssetStatus;
-	}
+
 
 	// overrides
 
@@ -86,11 +94,11 @@ public class CheckOutRecord {
 	public String toString() {
 		return "CheckOutRecord {" +
 				"id=" + id +
+				", assetStatus=" + assetStatus +
 				", asset=" + asset +
 				", profile" + profile +
 				", checkOutDate=" + checkOutDate +
 				", returnDate=" + returnDate +
-				", finalAssetStatus=" + finalAssetStatus +
 				"}";
 	}
 
@@ -102,15 +110,15 @@ public class CheckOutRecord {
 		CheckOutRecord checkOutRecord = (CheckOutRecord) o;
 
 		return Objects.equals(id, checkOutRecord.id) &&
+				assetStatus == checkOutRecord.assetStatus &&
 				Objects.equals(asset, checkOutRecord.asset) &&
 				Objects.equals(profile, checkOutRecord.profile) &&
 				Objects.equals(checkOutDate, checkOutRecord.checkOutDate) &&
-				Objects.equals(returnDate, checkOutRecord.returnDate) &&
-				finalAssetStatus == checkOutRecord.finalAssetStatus;
+				Objects.equals(returnDate, checkOutRecord.returnDate);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, asset, profile, checkOutDate, returnDate, finalAssetStatus);
+		return Objects.hash(id, assetStatus, asset, profile, checkOutDate, returnDate);
 	}
 }

@@ -15,23 +15,34 @@ public class CheckOutRecordService {
 	private CheckOutRecordRepo checkOutRecordRepo;
 	private AssetRepo assetRepo;
 	private ProfileRepo profileRepo;
+
+	@Autowired
 	public CheckOutRecordService(CheckOutRecordRepo checkOutRecordRepo, AssetRepo assetRepo, ProfileRepo profileRepo) {
 		this.checkOutRecordRepo = checkOutRecordRepo;
 		this.assetRepo = assetRepo;
 		this.profileRepo = profileRepo;
 	}
-	@Autowired
 
+	/**
+	 * Creates a new CheckOutRecord object and saves it to database
+	 *
+	 * @param assetStatus
+	 * @param assetCode
+	 * @param profileEmail
+	 *
+	 * @return the new CheckOutRecord object that was saved to the database
+	 */
+	public CheckOutRecord createCheckOutRecord(Status assetStatus, String assetCode, String profileEmail) {
+		// check if incoming asset name exists
+		Asset asset = assetRepo.findByCode(assetCode).orElseThrow(() ->
+			new RuntimeException("Asset does not exist: " + assetCode)
+		);
+		// check if incoming profile email exists
+		Profile profile = profileRepo.findByEmail(profileEmail).orElseThrow(() ->
+			new RuntimeException("Profile does not exist: " + profileEmail)
+		);
 
-	public CheckOutRecord createCheckOutRecord(String assetCode, String profileEmail, Date checkOutDate, Date returnDate, Status finalAssetStatus) {
-		Asset asset = assetRepo.findByCode(assetCode).orElseThrow(() -> {
-			new RuntimeException("Asser does not exist: " + assetCode);
-		});
-
-		Profile profile = profileRepo.findByEmail(profileEmail).orElseThrow(() -> {
-			new RuntimeException("Profile does not exist: " + profileEmail);
-		});
-
-		return checkOutRecordRepo.save(new CheckOutRecord(asset, profile));
+		// create and save
+		return checkOutRecordRepo.save(new CheckOutRecord(assetStatus, asset, profile));
 	}
 }

@@ -1,8 +1,4 @@
 package com.example.assetproject.domain;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 
 public enum Status {
 	Available("Available"), Reserved("Reserved"), CheckedOut("Checked-Out"), Returned("Returned"), Repairs("Repairs"), Missing("Missing");
