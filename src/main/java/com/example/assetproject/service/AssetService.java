@@ -26,24 +26,15 @@ public class AssetService {
 	 * Creates a new Asset object and adds it to the database
 	 *
 	 * @param status
-	 * @param make
-	 * @param model
-	 * @param serialNumber
-	 * @param macAddress
 	 * @param code
 	 *
 	 * @return Asset entity
 	 */
-	public Asset createAsset(Status status, String makeName, String modelName, String serialNumber, String macAddress, String code) {
-		// check if make and model exist
-		Make make = this.makeRepo.findByName(makeName).orElseThrow(() ->
-				new RuntimeException("Make does not exist: " + makeName));
-		Model model = this.modelRepo.findByName(modelName).orElseThrow(() ->
-				new RuntimeException("Model does not exist: " + modelName));
+	public Asset createAsset(Status status, String code) {
 
 		// create and save
 		return assetRepo.findByCode(code)
-				.orElse(assetRepo.save(new Asset(status, make, model, serialNumber, macAddress, code)));
+				.orElse(assetRepo.save(new Asset(status, code)));
 	}
 
 	/**

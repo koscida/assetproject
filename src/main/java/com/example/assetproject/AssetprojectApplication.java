@@ -1,7 +1,7 @@
 package com.example.assetproject;
 
 import com.example.assetproject.service.AssetService;
-import com.example.assetproject.service.CheckOutRecordService;
+import com.example.assetproject.service.EquipmentRecordService;
 import com.example.assetproject.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -16,7 +16,7 @@ public class AssetprojectApplication implements CommandLineRunner {
 	private AssetService assetService;
 
 	@Autowired
-	private CheckOutRecordService checkOutRecordService;
+	private EquipmentRecordService equipmentRecordService;
 
 	@Autowired
 	private ProfileService profileService;

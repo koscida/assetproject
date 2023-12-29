@@ -6,14 +6,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProfileService {
 	private ProfileRepo profileRepo;
-	private CheckOutRecordService checkOutRecordService;
+	private EquipmentRecordService equipmentRecordService;
 
 
 	@Autowired
-	public ProfileService(ProfileRepo profileRepo, CheckOutRecordService checkOutRecordService) {
+	public ProfileService(ProfileRepo profileRepo, EquipmentRecordService equipmentRecordService) {
 		this.profileRepo = profileRepo;
-		this.checkOutRecordService = checkOutRecordService;
+		this.equipmentRecordService = equipmentRecordService;
 	}
+
 	/**
 	 * Will create a new Profile object and save it to the database
 	 *
@@ -27,5 +28,10 @@ public class ProfileService {
 		// return profile if exists, or create and save
 		return this.profileRepo.findByEmail(email)
 				.orElse(this.profileRepo.save(new Profile(firstName, lastName, email)));
+	}
+
+	public Profile getProfile(Long profileId) {
+		return this.profileRepo.findById(profileId)
+				.orElseThrow(() -> new RuntimeException("Profile does not exist: " + profileId));
 	}
 }
