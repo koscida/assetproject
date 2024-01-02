@@ -1,6 +1,7 @@
 package com.example.assetproject.service;
 import com.example.assetproject.domain.Profile;
 import com.example.assetproject.repo.ProfileRepo;
+import com.example.assetproject.web.ProfileDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 @Service
@@ -33,5 +34,16 @@ public class ProfileService {
 	public Profile getProfile(Long profileId) {
 		return this.profileRepo.findById(profileId)
 				.orElseThrow(() -> new RuntimeException("Profile does not exist: " + profileId));
+	}
+
+	public Profile updateProfile(Long profileId, ProfileDTO profileDTO) {
+		// get the profile
+		Profile profileUpdates = getProfile(profileId);
+		// update profile values
+//		if(!profileDTO.getEmail().isEmpty())  profileUpdates.setEmail(profileDTO.getEmail());
+//		if(!profileDTO.getFirstName().isBlank())  profileUpdates.setFirstName(profileDTO.getFirstName());
+//		if(!profileDTO.getLastName().isEmpty())  profileUpdates.setLastName(profileDTO.getLastName());
+		// save the profile
+		return this.profileRepo.save(profileUpdates);
 	}
 }
